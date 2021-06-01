@@ -1,16 +1,18 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-require('dotenv').config
 
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
+const userRoutes = require('./api/routes/user');
 
 const uri = "mongodb+srv://ridotoki:0ELjvA4JRkTmE8Bx@node-rest-shop.pe6nd.mongodb.net/test?retryWrites=true&w=majority"
 
 mongoose.connect(uri,
     {
+        useCreateIndex: true,
         useNewUrlParser: true,
         useUnifiedTopology: true
     }
@@ -34,8 +36,9 @@ app.use((req, res, next) => {
 });
 
 //routes
-app.use('/products', productRoutes);
-app.use('/orders', orderRoutes);
+app.use("/products", productRoutes);
+app.use("/orders", orderRoutes);
+app.use("/user", userRoutes);
 
 //error handling
 app.use((req, res, next) => {
